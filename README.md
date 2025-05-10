@@ -26,7 +26,11 @@ El proyecto tiene 5 modelos:
 - comments
 - screening
 
-### model: user
+<div align="center">
+<img src="https://res.cloudinary.com/dr2vohk2z/image/upload/v1746896438/PopcornBCN/Preview/models_qudpbz.jpg" alt="models" />
+</div>
+
+### User model
 
 #### endpoints
 
@@ -39,7 +43,7 @@ El proyecto tiene 5 modelos:
 | PUT      | updateUser   | isAuth, upload.single("image") | /:id      | permite actualizar los datos de los users. Quien está logueado puede actualizar los datos de si mismo. El user con role "admin" puede modificar los datos de cualquier usuario. |
 | DELETE   | deleteUser   | isAuth                         | /:id      | permite eliminar una cuenta de usuario. Los logueados se pueden eliminar su propia cuenta. El user con role "admin" puede elminar cualquier cuenta.                             |
 
-### model: movie
+### Movie model
 
 #### endpoints
 
@@ -53,7 +57,7 @@ El proyecto tiene 5 modelos:
 | PUT      | updateMovie  | isAdmin, upload.fields([{ name: 'image', maxCount: 1 },{ name: 'posterBG', maxCount: 1 }]) | /:id    | permite actualizar los datos de una película ya existente. Solo el user con role admin lo puede hacer            |
 | DELETE   | deleteMovie  | isAdmin                                                                                    | /:id    | permite eliminar una película existente. Solo el user con role admin lo puede hacer                              |
 
-### model: cinema
+### Cinema model
 
 #### endpoints
 
@@ -65,7 +69,7 @@ El proyecto tiene 5 modelos:
 | PUT      | updateCinema  | isAdmin    | /:id  | permite actualizar los datos de un cine ya existente. Solo el user con role admin lo puede hacer |
 | DELETE   | deleteCinema  | isAdmin    | /:id  | permite eliminar un cine existente. Solo el user con role admin lo puede hacer                   |
 
-### model: comments
+### Comments model
 
 #### endpoints
 
@@ -76,7 +80,7 @@ El proyecto tiene 5 modelos:
 | POST     | postComment        | isAuth     | /       | permite postear un comentario debajo de una película. Solo los logueados pueden hacerlo                                                                                                  |
 | DELETE   | deleteComment      | isAuth     | /:id    | permite eliminar un comentario existente. Los logueados pueden borrar sus proprios comentarios. El admin puede borrar cualquier comentario. No permitido para los que no están logueados |
 
-### model: screening
+### Screening model
 
 #### endpoints
 
