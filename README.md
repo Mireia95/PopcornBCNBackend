@@ -1,4 +1,4 @@
-# POPCORNBCN
+# POPCORNBCN - BACKEND
 
 <div align="center">
 <img src="https://res.cloudinary.com/dr2vohk2z/image/upload/v1746569246/PopcornBCN/Preview/PopcornBCNPreviewDesktop_r0zfb2.png" alt="desktop preview" />
