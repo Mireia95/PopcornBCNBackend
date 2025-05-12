@@ -1,3 +1,6 @@
+const {
+  updateMovieStarsAverage
+} = require('../../utils/updateMovieStarsAverage');
 const Comment = require('../models/Comments');
 const Movie = require('../models/Movie');
 const User = require('../models/Users');
@@ -35,17 +38,36 @@ const postComment = async (req, res, next) => {
 
     //actualizar Movie pasandole el comment creado
     if (req.body.movie) {
-      const existedMovie = await Movie.findById(req.body.movie);
+      const existedMovie = await Movie.findById(req.body.movie).populate(
+        'comments'
+      );
+
+      //Actualizar Movie.stars
+      if (req.body.stars) {
+        const totComments = existedMovie.comments.length;
+        if (totComments > 0) {
+          //quiere decir que si hay stars. Entonces hacemos la media
+          //sumo las estrellas
+          const averageStars = updateMovieStarsAverage({
+            movie: existedMovie,
+            bodyStars: req.body.stars
+          });
+          //actualizo Movie.stars:
+          existedMovie.stars = averageStars;
+        } else {
+          //si no hay comments previos, le paso las estrellas del nuevo comment
+          existedMovie.stars = req.body.stars;
+        }
+      }
+      //añado el nuevo comment al movie
       existedMovie.comments.push(CommentSaved._id); //le añado el nuevo comentario al campo "comments"
       await existedMovie.save(); //guardo el movie con estos cambios
-      console.log(existedMovie);
     } else {
       return res.status(404).json({ message: 'Película no encontrada' });
     }
 
     //actualizar user pasandole el comment creado
     //chequeo que el id del user pasado desde el frontend sea el mismo del que está haciendo la petición
-
     if (req.body.user === req.user._id.toString()) {
       //le añado el nuevo comentario al campo "comments" del user
       const userUpdate = await User.findByIdAndUpdate(
@@ -74,19 +96,43 @@ const deleteComment = async (req, res, next) => {
     const comment = await Comment.findById(id); //busco el comment
 
     //me aseguro que el user sea o admin o es el logueado
-    console.log(req.user.id === comment.user._id.toString());
     if (
       req.user.role === 'admin' ||
       req.user.id === comment.user._id.toString()
     ) {
       //actualizo movie.comments
-      const movie = await Movie.findByIdAndUpdate(
+      /* const movie = await Movie.findByIdAndUpdate(
         comment.movie._id,
         {
           $pull: { comments: id }
         },
         { new: true }
+      ); */
+
+      //actualizo media estrellas del movie
+
+      const movie = await Movie.findById(comment.movie._id).populate(
+        'comments'
       );
+      //1.quito el comment eliminado de movie.comments
+      movie.comments = movie.comments.filter(
+        (commentList) => commentList._id.toString() !== comment._id.toString()
+      );
+
+      //2.hago de nuevo la media
+      if (movie.comments.length > 0) {
+        //quiere decir que habia mas de un comentario. Entonces hago la media otra vez
+        const averageStars = updateMovieStarsAverage({
+          movie: movie,
+          type: 'DELETE'
+        });
+        movie.stars = averageStars;
+      } else {
+        //nos hemos quedado sin comentarios. Estrellas = 0
+        movie.stars = 0;
+      }
+
+      await movie.save(); //guardo el movie con estos cambios
 
       //actualizo user.comments
       const user = await User.findByIdAndUpdate(

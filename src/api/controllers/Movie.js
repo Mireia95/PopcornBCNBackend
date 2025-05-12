@@ -46,7 +46,6 @@ const postMovie = async (req, res, next) => {
   try {
     if (req.user.role === 'admin') {
       const newMovie = new Movie(req.body);
-      console.log('hola');
       if (req.files) {
         newMovie.image = req.files.image?.[0]?.path || '';
         newMovie.posterBG = req.files.posterBG?.[0]?.path || '';
@@ -74,8 +73,6 @@ const postMovie = async (req, res, next) => {
 const updateMovie = async (req, res, next) => {
   try {
     const { id } = req.params;
-
-    console.log(req.body);
 
     if (req.user.role !== 'admin') {
       return res
@@ -158,8 +155,7 @@ const deleteMovie = async (req, res, next) => {
         },
         { new: true }
       );
-      console.log(user);
-      console.log('hasta aqui');
+
       //elimino los comments tambien
       const comments = await Comment.find({ movie: id });
       if (comments.length > 0) {
