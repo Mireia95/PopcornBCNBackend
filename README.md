@@ -6,17 +6,38 @@
 
 ## Descripción
 
-PopcornBCN es una página que permite ver la lista de películas disponibles en los cines de la ciudad de Barcelona. Enseña tanto la lista de cines disponibles como las sesiones de cada película. Además el user puede loguearse, añadir en su lista las películas favoritas y comentarlas. El admin es quien tiene la posibilidad de crear, editar, eliminar películas, cines, sesiones y comentarios, a través de formularios.
+PopcornBCN es un proyecto APIREST, una página que permite ver la lista de películas disponibles en los cines de la ciudad de Barcelona. Enseña tanto la lista de cines disponibles como las sesiones de cada película. Además el user puede loguearse, añadir en su lista las películas favoritas y comentarlas. El admin es quien tiene la posibilidad de crear, editar, eliminar películas, cines, sesiones y comentarios, a través de formularios.
 
-## Live Demo
+## Project Link Frontend:
 
 link http://popcornbcn.cloudinary.com
 
-## Features
+## Desarrollado con:
 
-Para el frontend uso Javascript Vanilla, HTML y CSS.
-Como base de datos uso MongoDB. Levanto un servidor usando la libreria Express.
-Los files como las imágenes se suben y se guardan mediante Cloudinary.
+- MongoDB
+- Express
+- Node.js
+- Mongoose
+- Dotenv
+- Cloudinary (para subida de imágenes)
+
+## Requisitos
+
+Proyecto creado con Vite. Al abrir el proyecto instalar paquetes de NPM :
+
+`npm install`
+
+<br>
+
+## Desarrollo
+
+### Ruta principal
+
+`api/v001`
+
+<br>
+
+### Modelos
 
 El proyecto tiene 5 modelos:
 
@@ -27,7 +48,7 @@ El proyecto tiene 5 modelos:
 - screening
 
 <div align="center">
-<img src="https://res.cloudinary.com/dr2vohk2z/image/upload/v1746896438/PopcornBCN/Preview/models_qudpbz.jpg" alt="models" />
+<img src="https://res.cloudinary.com/dr2vohk2z/image/upload/v1747134766/PopcornBCN/Preview/diagramma_llx2ff.png" alt="models" />
 </div>
 
 ### User model
