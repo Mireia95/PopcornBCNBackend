@@ -12,7 +12,9 @@ const getComments = async (req, res, next) => {
     const allComments = await Comment.find().populate('user').populate('movie');
     return res.status(200).json(allComments);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición GET' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición GET', error: error });
   }
 };
 
@@ -24,7 +26,9 @@ const getCommentsByMovie = async (req, res, next) => {
     const commentsMovie = await Comment.find({ movie: movie });
     return res.status(200).json(commentsMovie);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición GET' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición GET', error: error });
   }
 };
 
@@ -78,7 +82,8 @@ const postComment = async (req, res, next) => {
       return res.status(201).json({ comment: CommentSaved, user: userUpdate });
     } else {
       return res.status(400).json({
-        message: 'Se ha producido un error. Por favor, logueate de nuevo.'
+        message: 'Se ha producido un error. Por favor, logueate de nuevo.',
+        error: error
       });
     }
   } catch (error) {
@@ -100,17 +105,7 @@ const deleteComment = async (req, res, next) => {
       req.user.role === 'admin' ||
       req.user.id === comment.user._id.toString()
     ) {
-      //actualizo movie.comments
-      /* const movie = await Movie.findByIdAndUpdate(
-        comment.movie._id,
-        {
-          $pull: { comments: id }
-        },
-        { new: true }
-      ); */
-
       //actualizo media estrellas del movie
-
       const movie = await Movie.findById(comment.movie._id).populate(
         'comments'
       );
@@ -156,7 +151,7 @@ const deleteComment = async (req, res, next) => {
   } catch (error) {
     return res
       .status(400)
-      .json({ message: 'Error en la petición DELETE', error });
+      .json({ message: 'Error en la petición DELETE', error: error });
   }
 };
 

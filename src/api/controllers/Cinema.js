@@ -7,7 +7,9 @@ const getCinemas = async (req, res, next) => {
     const allCinemas = await Cinema.find();
     return res.status(200).json(allCinemas);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición GET' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición GET', error: error });
   }
 };
 
@@ -19,7 +21,9 @@ const getCinemaById = async (req, res, next) => {
     const cinema = await Cinema.findById(id);
     return res.status(200).json(cinema);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición  GETBYID' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición  GETBYID', error: error });
   }
 };
 
@@ -33,7 +37,9 @@ const postCinema = async (req, res, next) => {
       const cinemaSaved = await newCinema.save();
       return res.status(201).json({ cinema: cinemaSaved });
     } else {
-      return res.status(400).json({ message: 'No estás autorizado.' });
+      return res
+        .status(400)
+        .json({ message: 'No estás autorizado.', error: error });
     }
   } catch (error) {
     return res
@@ -80,7 +86,9 @@ const deleteCinema = async (req, res, next) => {
       return res.status(400).json({ message: 'No estás autorizado.' });
     }
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición DELETE' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición DELETE', error: error });
   }
 };
 

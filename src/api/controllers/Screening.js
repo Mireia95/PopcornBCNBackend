@@ -10,7 +10,9 @@ const getScreenings = async (req, res, next) => {
       .populate('cinema');
     return res.status(200).json(allScreenings);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición GET' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición GET', error: error });
   }
 };
 
@@ -24,7 +26,9 @@ const getScreeningById = async (req, res, next) => {
       .populate('cinema');
     return res.status(200).json(screening);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición GETBYID' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición GETBYID', error: error });
   }
 };
 
@@ -38,7 +42,7 @@ const getScreeningByMovie = async (req, res, next) => {
   } catch (error) {
     return res
       .status(400)
-      .json({ message: 'Error en la petición GETBYID', error });
+      .json({ message: 'Error en la petición GETBYID', error: error });
   }
 };
 
@@ -83,7 +87,9 @@ const updateScreening = async (req, res, next) => {
       return res.status(200).json({ screening: updateScreening });
     }
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición PUT', error });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición PUT', error: error });
   }
 };
 
@@ -100,7 +106,9 @@ const deleteScreening = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición DELETE' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición DELETE', error: error });
   }
 };
 

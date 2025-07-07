@@ -18,7 +18,9 @@ const getMovies = async (req, res, next) => {
 
     return res.status(200).json(allMovies);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición GET' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición GET', error: error });
   }
 };
 
@@ -36,7 +38,9 @@ const getMovieById = async (req, res, next) => {
     });
     return res.status(200).json(movie);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición GETBYID' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición GETBYID', error: error });
   }
 };
 
@@ -56,7 +60,6 @@ const postMovie = async (req, res, next) => {
         .status(201)
         .json({ message: 'Movie creado correctamente!', movie: MovieSaved });
     } else {
-      console.log('no soy admin');
       return res
         .status(400)
         .json({ message: 'Acceso denegado. No tienes permisos' });
