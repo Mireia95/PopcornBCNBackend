@@ -60,8 +60,6 @@ const loginUser = async (req, res, next) => {
       { path: 'myList' }
     ]);
 
-    console.log(user);
-
     if (!user) {
       return res.status(400).json('Usuario o contraseña incorrectos');
     }
@@ -74,7 +72,7 @@ const loginUser = async (req, res, next) => {
       return res.status(400).json('Usuario o contraseña incorrectos');
     }
   } catch (error) {
-    return res.status(400).json('Error en el login');
+    return res.status(400).json({ message: 'Error en el login', error: error });
   }
 };
 

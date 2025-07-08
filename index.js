@@ -23,9 +23,10 @@ app.use('*', (req, res, next) => {
 });
 
 //levanto servidor
-/* app.listen(3000, () => {
+//!quitar cuando despliegues
+app.listen(3000, () => {
   console.log('Servidor levantado en http//localhost:3000');
-}); */
+});
 
 //si despliego en Vercel:
 module.exports = app;
