@@ -17,24 +17,27 @@ const registerUser = async (req, res, next) => {
 
     if (existUserMail) {
       //user ya existente
-      return res
-        .status(400)
-        .json(
-          'Email ya registrado. Por favor, crear otro usuario o hacer el login'
-        );
+      return res.status(400).json({
+        message:
+          'Email ya registrado. Por favor, crear otro usuario o hacer el login',
+        error: 'Register error'
+      });
     }
 
     //si username ya existe, poner otro
     if (existUsername) {
-      return res
-        .status(400)
-        .json('Username ya registrado. Por favor, usar otro');
+      return res.status(400).json({
+        message: 'Username ya registrado. Por favor, usar otro',
+        error: 'Register error'
+      });
     }
 
     const userSave = await user.save();
     return res.status(201).json(userSave);
   } catch (error) {
-    return res.status(400).json(`Error en la registración. ${error}`);
+    return res
+      .status(400)
+      .json({ message: `Error en la registración. ${error}`, error: error });
   }
 };
 
@@ -61,7 +64,10 @@ const loginUser = async (req, res, next) => {
     ]);
 
     if (!user) {
-      return res.status(400).json('Usuario o contraseña incorrectos');
+      return res.status(400).json({
+        message: 'Usuario o contraseña incorrectos',
+        error: 'Login error'
+      });
     }
 
     //check password
@@ -69,7 +75,10 @@ const loginUser = async (req, res, next) => {
       const token = generateToken(user._id, user.email);
       return res.status(200).json({ token, user });
     } else {
-      return res.status(400).json('Usuario o contraseña incorrectos');
+      return res.status(400).json({
+        message: 'Usuario o contraseña incorrectos',
+        error: 'Login error'
+      });
     }
   } catch (error) {
     return res.status(400).json({ message: 'Error en el login', error: error });
@@ -83,7 +92,9 @@ const getUsers = async (req, res, next) => {
     const allUsers = await User.find().populate('myList').populate('comments');
     return res.status(200).json(allUsers);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición GET' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición GET', error: error });
   }
 };
 
@@ -99,7 +110,8 @@ const getUserById = async (req, res, next) => {
       if (idUser !== id) {
         return res.status(400).json({
           message:
-            'No estás autorizado. Puedes obtener datos solo de tu usuario.'
+            'No estás autorizado. Puedes obtener datos solo de tu usuario.',
+          error: 'Permission error'
         });
       }
     }
@@ -123,7 +135,9 @@ const getUserById = async (req, res, next) => {
 
     return res.status(200).json(user);
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición GETBYID' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición GETBYID', error: error });
   }
 };
 
@@ -136,12 +150,13 @@ const updateUser = async (req, res, next) => {
 
     if (req.user.role !== 'admin' && idUser !== id) {
       return res.status(400).json({
-        message: 'No estás autorizado. Puedes modificar solo tu propio usuario.'
+        message:
+          'No estás autorizado. Puedes modificar solo tu propio usuario.',
+        error: 'Permission error'
       });
     }
 
     const existedUser = await User.findById(id); //busco el user
-    console.log(`existedUser: `, existedUser);
 
     //preservar myList: añadir o quitar movies de la lista myList
     let updatedMyList = [];
@@ -160,17 +175,15 @@ const updateUser = async (req, res, next) => {
         req.body.password = bcrypt.hashSync(req.body.password, 10);
       } else {
         //check si puedo enviar newPassword
-        console.log(`req.body.password: ${req.body.password}`);
-        console.log(`req.body.newPassword: ${req.body.newPassword}`);
         if (bcrypt.compareSync(req.body.password, existedUser.password)) {
           //hashear el password
           req.body.password = bcrypt.hashSync(req.body.newPassword, 10);
           delete req.body.newPassword;
         } else {
-          console.log('Password no correcta');
           return res.status(400).json({
             message:
-              'Contraseña actual incorrecta. Por favor, introduzca la contraseña correcta'
+              'Contraseña actual incorrecta. Por favor, introduzca la contraseña correcta',
+            error: 'Password error'
           });
         }
       }
@@ -184,7 +197,7 @@ const updateUser = async (req, res, next) => {
       comments: [...existedUser.comments, ...newComment],
       myList: updatedMyList
     };
-    console.log(`newUser: : `, newUser);
+
     //chequeo si se ha subido una imagen
     if (req.file) {
       newUser.image = req.file.path;
@@ -215,7 +228,9 @@ const updateUser = async (req, res, next) => {
 
     return res.status(200).json({ user: updateUser });
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición PUT', error });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición PUT', error: error });
   }
 };
 
@@ -229,7 +244,8 @@ const deleteUser = async (req, res, next) => {
     if (req.user.role !== 'admin') {
       if (idUser !== id) {
         return res.status(400).json({
-          message: 'No estás autorizado. Puedes eliminarte solo a ti mismo.'
+          message: 'No estás autorizado. Puedes eliminarte solo a ti mismo.',
+          error: 'permission error'
         });
       }
     }
@@ -243,7 +259,9 @@ const deleteUser = async (req, res, next) => {
       .status(200)
       .json({ message: 'User eliminado correctamente', user: deletedUser });
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición DELETE' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición DELETE', error: error });
   }
 };
 

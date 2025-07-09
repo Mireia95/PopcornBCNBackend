@@ -62,7 +62,9 @@ const updateCinema = async (req, res, next) => {
 
       return res.status(200).json({ cinema: updateCinema });
     } else {
-      return res.status(400).json({ message: 'No estás autorizado' });
+      return res
+        .status(400)
+        .json({ message: 'No estás autorizado', error: 'permission error' });
     }
   } catch (error) {
     return res
@@ -83,7 +85,9 @@ const deleteCinema = async (req, res, next) => {
         deletedCinema: deletedCinema
       });
     } else {
-      return res.status(400).json({ message: 'No estás autorizado.' });
+      return res
+        .status(400)
+        .json({ message: 'No estás autorizado.', error: 'permission error' });
     }
   } catch (error) {
     return res

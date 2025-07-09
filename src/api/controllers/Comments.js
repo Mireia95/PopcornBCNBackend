@@ -67,7 +67,9 @@ const postComment = async (req, res, next) => {
       existedMovie.comments.push(CommentSaved._id); //le añado el nuevo comentario al campo "comments"
       await existedMovie.save(); //guardo el movie con estos cambios
     } else {
-      return res.status(404).json({ message: 'Película no encontrada' });
+      return res
+        .status(404)
+        .json({ message: 'Película no encontrada', error: 'error' });
     }
 
     //actualizar user pasandole el comment creado
@@ -146,7 +148,9 @@ const deleteComment = async (req, res, next) => {
         comment: deletedComment
       });
     } else {
-      return res.status(400).json({ message: 'No estás autorizado.' });
+      return res
+        .status(400)
+        .json({ message: 'No estás autorizado.', error: 'permission error' });
     }
   } catch (error) {
     return res

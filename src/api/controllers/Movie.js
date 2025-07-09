@@ -60,9 +60,10 @@ const postMovie = async (req, res, next) => {
         .status(201)
         .json({ message: 'Movie creado correctamente!', movie: MovieSaved });
     } else {
-      return res
-        .status(400)
-        .json({ message: 'Acceso denegado. No tienes permisos' });
+      return res.status(400).json({
+        message: 'Acceso denegado. No tienes permisos',
+        error: 'permission error'
+      });
     }
   } catch (error) {
     return res
@@ -80,12 +81,17 @@ const updateMovie = async (req, res, next) => {
     if (req.user.role !== 'admin') {
       return res
         .status(400)
-        .json({ message: 'Acceso denegado. No tienes permisos' });
+        .json({
+          message: 'Acceso denegado. No tienes permisos',
+          error: 'permission error'
+        });
     }
 
     const existedMovie = await Movie.findById(id); //busco el movie
     if (!existedMovie) {
-      return res.status(400).json({ message: 'Película no encontrada' });
+      return res
+        .status(400)
+        .json({ message: 'Película no encontrada', error: 'error' });
     }
 
     //check si hay nuevos comentarios
@@ -174,10 +180,15 @@ const deleteMovie = async (req, res, next) => {
     } else {
       return res
         .status(400)
-        .json({ message: 'Permiso denegado. No puedes eliminar el elemento.' });
+        .json({
+          message: 'Permiso denegado. No puedes eliminar el elemento.',
+          error: 'permission error'
+        });
     }
   } catch (error) {
-    return res.status(400).json({ message: 'Error en la petición DELETE' });
+    return res
+      .status(400)
+      .json({ message: 'Error en la petición DELETE', error: error });
   }
 };
 
