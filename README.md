@@ -10,7 +10,7 @@ PopcornBCN es un proyecto APIREST, una página que permite ver la lista de pelí
 
 ## Project Link Frontend:
 
-https://popcornbcn-frontend.vercel.app/
+https://popcorn-bcn-frontend.vercel.app/
 
 ## Project Link Backend:
 
