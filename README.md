@@ -57,6 +57,8 @@ El proyecto tiene 5 modelos:
 
 ### User model
 
+#### Ruta: /users
+
 #### endpoints
 
 | PETICIÓN | NOMBRE       | MIDDLEWARE                     | ROUTE     | DESCRIPCIÓN                                                                                                                                                                     |
@@ -69,6 +71,8 @@ El proyecto tiene 5 modelos:
 | DELETE   | deleteUser   | isAuth                         | /:id      | permite eliminar una cuenta de usuario. Los logueados se pueden eliminar su propia cuenta. El user con role "admin" puede elminar cualquier cuenta.                             |
 
 ### Movie model
+
+#### Ruta: /movies
 
 #### endpoints
 
@@ -84,6 +88,8 @@ El proyecto tiene 5 modelos:
 
 ### Cinema model
 
+#### Ruta: /cinemas
+
 #### endpoints
 
 | PETICIÓN | NOMBRE        | MIDDLEWARE | ROUTE | DESCRIPCIÓN                                                                                      |
@@ -96,6 +102,8 @@ El proyecto tiene 5 modelos:
 
 ### Comments model
 
+#### Ruta: /comments
+
 #### endpoints
 
 | PETICIÓN | NOMBRE             | MIDDLEWARE | ROUTE   | DESCRIPCIÓN                                                                                                                                                                              |
@@ -106,6 +114,8 @@ El proyecto tiene 5 modelos:
 | DELETE   | deleteComment      | isAuth     | /:id    | permite eliminar un comentario existente. Los logueados pueden borrar sus proprios comentarios. El admin puede borrar cualquier comentario. No permitido para los que no están logueados |
 
 ### Screening model
+
+#### Ruta: /screenings
 
 #### endpoints
 
